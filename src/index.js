@@ -116,6 +116,21 @@ function HashMap(originalSize = 12) {
     return allEntries;
   };
 
+  const remove = (key) => {
+    const index = hash(key);
+    const bucket = hashMap[index];
+
+    if (null == bucket || bucket.length === 0) return false;
+
+    filteredBucket = bucket.filter(([bucketKey]) => key !== bucketKey);
+
+    if (filteredBucket.length === bucket.length) return false;
+
+    hashMap[index] = filteredBucket;
+
+    return true;
+  };
+
   return {
     get,
     set,
@@ -125,6 +140,7 @@ function HashMap(originalSize = 12) {
     keys,
     values,
     entries,
+    remove,
   };
 }
 
