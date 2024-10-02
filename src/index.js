@@ -58,11 +58,7 @@ function HashMap(originalSize = 12) {
 
     if (!Array.isArray(bucket) || bucket.length === 0) return false;
 
-    for (const [bucketKey] of bucket) {
-      if (bucketKey === key) return true;
-    }
-
-    return false;
+    return bucket.some(([bucketKey]) => key === bucketKey);
   };
 
   const length = () => {
