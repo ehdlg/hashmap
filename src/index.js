@@ -25,6 +25,9 @@ function HashMap(originalSize = 12) {
   };
 
   const set = (key, value) => {
+    if (null == key) throw new Error('Invalid key');
+    if (null == value) throw new Error('Invalid value');
+
     const hashKey = hash(key);
     const bucket = hashMap[hashKey];
 
