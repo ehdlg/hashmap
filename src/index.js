@@ -1,5 +1,6 @@
-function HashMap(size = 12) {
-  const size = size;
+function HashMap(originalSize = 12) {
+  const size = originalSize;
+  const hashMap = new Array(size).fill([]);
 
   const hash = (key) => {
     const primeNumber = 15;
@@ -12,21 +13,35 @@ function HashMap(size = 12) {
     return hashCode;
   };
 
-  const hashMap = new Array(size).fill([]);
+  const get = (key) => {
+    const hashKey = hash(key);
+    const bucket = hashMap[hashKey];
 
-  const get = (index) => {
-    if (typeof index !== 'number') throw new Error('Not a valid index');
-    if (index < 0 || index > size) throw new Error('Index out of bounds');
+    for (const [bucketKey, value] of bucket) {
+      if (key === bucketKey) return value;
+    }
 
-    return hashMap[index];
+    return null;
   };
 
   const set = (key, value) => {
-    //get hash key
+    const hashKey = hash(key);
+    const bucket = hashMap[hashKey];
 
-    hashMap[hashKey] = value;
+    if (!Array.isArray(bucket) || bucket.length === 0) return (hashMap[hashKey] = [[key, value]]);
 
-    return hashKey;
+    for (let i = 0; i < bucket.length; i++) {
+      const bucketKey = bucket[i][0];
+
+      if (bucketKey == key) {
+        bucket[i][1] = value;
+        return;
+      }
+    }
+
+    bucket.push([key, value]);
+
+    return;
   };
 
   return {
