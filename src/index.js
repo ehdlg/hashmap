@@ -73,12 +73,42 @@ function HashMap(originalSize = 12) {
 
   const clear = () => hashMap.fill([]);
 
+  const keys = () => {
+    const allKeys = [];
+
+    for (const bucket of hashMap) {
+      if (bucket.length === 0) continue;
+
+      for (const [key] of bucket) {
+        allKeys.push(key);
+      }
+    }
+
+    return allKeys;
+  };
+
+  const values = () => {
+    const allValues = [];
+
+    for (const bucket of hashMap) {
+      if (bucket.length === 0) continue;
+
+      for (const [, value] of bucket) {
+        allValues.push(value);
+      }
+    }
+
+    return allValues;
+  };
+
   return {
     get,
     set,
     has,
     length,
     clear,
+    keys,
+    values,
   };
 }
 
