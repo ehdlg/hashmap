@@ -44,9 +44,23 @@ function HashMap(originalSize = 12) {
     return;
   };
 
+  const has = (key) => {
+    const hashKey = hash(key);
+    const bucket = hashMap[hashKey];
+
+    if (!Array.isArray(bucket) || bucket.length === 0) return false;
+
+    for (const [bucketKey] of bucket) {
+      if (bucketKey === key) return true;
+    }
+
+    return false;
+  };
+
   return {
     get,
     set,
+    has,
   };
 }
 
