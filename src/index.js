@@ -57,10 +57,22 @@ function HashMap(originalSize = 12) {
     return false;
   };
 
+  const length = () => {
+    let count = 0;
+    for (const bucket of hashMap) {
+      if (!Array.isArray(bucket)) continue;
+
+      count += bucket.length;
+    }
+
+    return count;
+  };
+
   return {
     get,
     set,
     has,
+    length,
   };
 }
 
