@@ -1,6 +1,8 @@
 function HashMap(originalSize = 12) {
   const size = originalSize;
   const hashMap = new Array(size).fill([]);
+  const loadFactor = 0.75;
+  let count = 0;
 
   const hash = (key) => {
     const primeNumber = 15;
@@ -33,6 +35,7 @@ function HashMap(originalSize = 12) {
 
     if (!Array.isArray(bucket) || bucket.length === 0) {
       hashMap[index] = [[key, value]];
+      ++count;
 
       return;
     }
