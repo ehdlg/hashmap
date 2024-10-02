@@ -101,6 +101,20 @@ function HashMap(originalSize = 12) {
     return allValues;
   };
 
+  const entries = () => {
+    const allEntries = [];
+
+    for (const bucket of hashMap) {
+      if (bucket.length === 0) continue;
+
+      for (const [key, value] of bucket) {
+        allEntries.push([key, value]);
+      }
+    }
+
+    return allEntries;
+  };
+
   return {
     get,
     set,
@@ -109,6 +123,7 @@ function HashMap(originalSize = 12) {
     clear,
     keys,
     values,
+    entries,
   };
 }
 
