@@ -1,6 +1,6 @@
 function HashMap(originalSize = 12) {
-  const size = originalSize;
-  const hashMap = new Array(size).fill([]);
+  let size = originalSize;
+  let hashMap = new Array(size).fill([]);
   const loadFactor = 0.75;
   let count = 0;
 
