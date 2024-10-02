@@ -14,8 +14,8 @@ function HashMap(originalSize = 12) {
   };
 
   const get = (key) => {
-    const hashKey = hash(key);
-    const bucket = hashMap[hashKey];
+    const index = hash(key);
+    const bucket = hashMap[index];
 
     for (const [bucketKey, value] of bucket) {
       if (key === bucketKey) return value;
@@ -28,11 +28,11 @@ function HashMap(originalSize = 12) {
     if (null == key) throw new Error('Invalid key');
     if (null == value) throw new Error('Invalid value');
 
-    const hashKey = hash(key);
-    const bucket = hashMap[hashKey];
+    const index = hash(key);
+    const bucket = hashMap[index];
 
     if (!Array.isArray(bucket) || bucket.length === 0) {
-      hashMap[hashKey] = [[key, value]];
+      hashMap[index] = [[key, value]];
 
       return;
     }
@@ -53,8 +53,8 @@ function HashMap(originalSize = 12) {
   };
 
   const has = (key) => {
-    const hashKey = hash(key);
-    const bucket = hashMap[hashKey];
+    const index = hash(key);
+    const bucket = hashMap[index];
 
     if (!Array.isArray(bucket) || bucket.length === 0) return false;
 
