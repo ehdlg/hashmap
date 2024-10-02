@@ -31,13 +31,18 @@ function HashMap(originalSize = 12) {
     const hashKey = hash(key);
     const bucket = hashMap[hashKey];
 
-    if (!Array.isArray(bucket) || bucket.length === 0) return (hashMap[hashKey] = [[key, value]]);
+    if (!Array.isArray(bucket) || bucket.length === 0) {
+      hashMap[hashKey] = [[key, value]];
+
+      return;
+    }
 
     for (let i = 0; i < bucket.length; i++) {
       const bucketKey = bucket[i][0];
 
       if (bucketKey == key) {
         bucket[i][1] = value;
+
         return;
       }
     }
