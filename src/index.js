@@ -75,7 +75,11 @@ function HashMap(originalSize = 12) {
     return count;
   };
 
-  const clear = () => hashMap.fill([]);
+  const clear = () => {
+    for (let i = 0; i < size; i++) {
+      hashMap[i] = [];
+    }
+  };
 
   const keys = () => {
     const allKeys = [];
