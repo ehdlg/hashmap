@@ -68,11 +68,14 @@ function HashMap(originalSize = 12) {
     return count;
   };
 
+  const clear = () => hashMap.fill([]);
+
   return {
     get,
     set,
     has,
     length,
+    clear,
   };
 }
 
