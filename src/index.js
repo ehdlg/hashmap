@@ -1,12 +1,11 @@
 function HashMap(originalSize = 12) {
   let size = originalSize;
-  let buckets = new Array.from({ length: size }, () => []);
+  let buckets = Array.from({ length: size }, () => []);
   let count = 0;
   const loadFactor = 0.75;
-  let count = 0;
 
   const hash = (key) => {
-    const primeNumber = 15;
+    const primeNumber = 31;
     let hashCode = 0;
 
     for (let i = 0; i < key.length; i++) {
@@ -30,6 +29,8 @@ function HashMap(originalSize = 12) {
   const set = (key, value) => {
     if (null == key) throw new Error('Invalid key');
     if (null == value) throw new Error('Invalid value');
+
+    if (count / size >= loadFactor) grow();
 
     const index = hash(key);
     const bucket = buckets[index];
@@ -77,7 +78,7 @@ function HashMap(originalSize = 12) {
   };
 
   const clear = () => {
-    buckets = new Array.from({length: size}, () => [])
+    buckets = Array.from({ length: size }, () => []);
   };
 
   const keys = () => {
@@ -122,6 +123,19 @@ function HashMap(originalSize = 12) {
     return allEntries;
   };
 
+  const grow = () => {
+    size *= 2;
+    const newBuckets = Array.from({ length: size }, () => []);
+    const currentEntries = entries();
+
+    currentEntries.forEach(([key, value]) => {
+      const index = hash(key);
+      newBuckets[index].push([key, value]);
+    });
+
+    buckets = newBuckets;
+  };
+
   const remove = (key) => {
     const index = hash(key);
     const bucket = buckets[index];
@@ -147,7 +161,8 @@ function HashMap(originalSize = 12) {
     values,
     entries,
     remove,
+    grow,
   };
 }
 
-const h = HashMap();
+const test = HashMap();
