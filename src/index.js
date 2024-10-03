@@ -1,6 +1,7 @@
 function HashMap(originalSize = 12) {
   let size = originalSize;
-  let hashMap = new Array(size).fill([]);
+  let buckets = new Array.from({ length: size }, () => []);
+  let count = 0;
   const loadFactor = 0.75;
   let count = 0;
 
@@ -17,7 +18,7 @@ function HashMap(originalSize = 12) {
 
   const get = (key) => {
     const index = hash(key);
-    const bucket = hashMap[index];
+    const bucket = buckets[index];
 
     for (const [bucketKey, value] of bucket) {
       if (key === bucketKey) return value;
@@ -31,10 +32,10 @@ function HashMap(originalSize = 12) {
     if (null == value) throw new Error('Invalid value');
 
     const index = hash(key);
-    const bucket = hashMap[index];
+    const bucket = buckets[index];
 
     if (!Array.isArray(bucket) || bucket.length === 0) {
-      hashMap[index] = [[key, value]];
+      buckets[index] = [[key, value]];
       ++count;
 
       return;
@@ -57,7 +58,7 @@ function HashMap(originalSize = 12) {
 
   const has = (key) => {
     const index = hash(key);
-    const bucket = hashMap[index];
+    const bucket = buckets[index];
 
     if (!Array.isArray(bucket) || bucket.length === 0) return false;
 
@@ -66,7 +67,7 @@ function HashMap(originalSize = 12) {
 
   const length = () => {
     let count = 0;
-    for (const bucket of hashMap) {
+    for (const bucket of buckets) {
       if (!Array.isArray(bucket)) continue;
 
       count += bucket.length;
@@ -76,15 +77,13 @@ function HashMap(originalSize = 12) {
   };
 
   const clear = () => {
-    for (let i = 0; i < size; i++) {
-      hashMap[i] = [];
-    }
+    buckets = new Array.from({length: size}, () => [])
   };
 
   const keys = () => {
     const allKeys = [];
 
-    for (const bucket of hashMap) {
+    for (const bucket of buckets) {
       if (bucket.length === 0) continue;
 
       for (const [key] of bucket) {
@@ -98,7 +97,7 @@ function HashMap(originalSize = 12) {
   const values = () => {
     const allValues = [];
 
-    for (const bucket of hashMap) {
+    for (const bucket of buckets) {
       if (bucket.length === 0) continue;
 
       for (const [, value] of bucket) {
@@ -112,7 +111,7 @@ function HashMap(originalSize = 12) {
   const entries = () => {
     const allEntries = [];
 
-    for (const bucket of hashMap) {
+    for (const bucket of buckets) {
       if (bucket.length === 0) continue;
 
       for (const [key, value] of bucket) {
@@ -125,7 +124,7 @@ function HashMap(originalSize = 12) {
 
   const remove = (key) => {
     const index = hash(key);
-    const bucket = hashMap[index];
+    const bucket = buckets[index];
 
     if (null == bucket || bucket.length === 0) return false;
 
@@ -133,7 +132,7 @@ function HashMap(originalSize = 12) {
 
     if (filteredBucket.length === bucket.length) return false;
 
-    hashMap[index] = filteredBucket;
+    buckets[index] = filteredBucket;
 
     return true;
   };
